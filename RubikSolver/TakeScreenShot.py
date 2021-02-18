@@ -14,7 +14,7 @@ if not cap.isOpened ():
 
 def take_picture(count_picture):
     picture = str(count_picture) + ".png"
-    im = ImageGrab.grab (bbox=(72, 40, 680, 525))  # X1,Y1,X2,Y2
+    im = ImageGrab.grab (bbox=(72, 40, 680, 525))  # x1,y1,x2,y2
     im.save("Images/" + picture)
 
 def Get_capture():
@@ -23,7 +23,7 @@ def Get_capture():
     while True:
         # Capture frame-by-frame
         ret, frame = cap.read()
-        # if frame is read correctly ret is Trueq
+        # if frame is read correctly ret is True
         if not ret:
             print("Can't receive frame (stream enqqd?). Exiting ...")
             break
@@ -35,12 +35,25 @@ def Get_capture():
             count_picture += 1
 
 def Give_filter(count_analyse):
-    FilterPicture.yellow_filter("Images/0.png")
+    FilterPicture.yellow_filter("Images/" + str(count_analyse) + ".png")
+    FilterPicture.green_filter("Images/" + str(count_analyse) + ".png")
+    FilterPicture.orange_filter("Images/" + str(count_analyse) + ".png")
+    FilterPicture.red_filter("Images/" + str(count_analyse) + ".png")
+    FilterPicture.blue_filter("Images/" + str(count_analyse) + ".png")
+
     count_analyse += 1
+    if count_analyse == 6:
+        return
+
+def ApplyFilter(count_analyse):
+    while True:
+        Give_filter(count_analyse)
+
 
 if __name__ == "__main__":
     Get_capture()
-    Give_filter(0)
+    if cv2.waitKey(1) == ord('a'):
+        ApplyFilter(0)
 
 # When everything done, release the capture
 cap.release()
